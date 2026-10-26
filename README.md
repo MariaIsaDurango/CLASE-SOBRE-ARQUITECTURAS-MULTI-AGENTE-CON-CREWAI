@@ -4,7 +4,7 @@
 
 **Colaboración y especialización entre agentes de IA**
 
-Pildora · Módulo 5 · 27 de octubre de 2026
+Píldora · Módulo 5 · 27 de octubre de 2026<br>
 Por **María Isabel Durango Pérez**
 
 [![Python](https://img.shields.io/badge/Python-3.10%20–%203.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
