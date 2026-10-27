@@ -1,2 +1,2 @@
-crewai==1.15.30
+crewai[google-genai]==1.15.30
 python-dotenv

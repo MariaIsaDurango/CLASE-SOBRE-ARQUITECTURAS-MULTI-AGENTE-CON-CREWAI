@@ -183,7 +183,7 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:14px}
   <div class="wrap">
     <div class="brand">MULTI<span>·</span>AGENTE</div>
     <div class="links">
-      <a href="#contexto">Contexto</a><a href="#problema">Problema</a><a href="#patrones">Patrones</a><a href="#crewai">CrewAI</a><a href="#caso">Caso práctico</a><a href="#simulacion">Simulación</a><a href="#taller">Taller</a><a href="#evaluacion">RAG y evaluación</a><a href="#tradeoffs">Trade-offs</a><a href="#repaso">Repaso</a><a href="#fuentes">Fuentes</a>
+      <a href="#contexto">Objetivos</a><a href="#problema">Problema</a><a href="#patrones">Patrones</a><a href="#crewai">CrewAI</a><a href="#caso">Caso práctico</a><a href="#simulacion">Simulación</a><a href="#taller">Taller</a><a href="#evaluacion">RAG y evaluación</a><a href="#tradeoffs">Trade-offs</a><a href="#repaso">Repaso</a><a href="#fuentes">Fuentes</a>
     </div>
   </div>
 </nav>
@@ -218,20 +218,18 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:14px}
 
 <section id="contexto">
   <div class="wrap">
-    <div class="eyebrow">01 · Dónde estamos</div>
+    <div class="eyebrow">01 · Objetivos de la sesión</div>
     <h2>Del agente individual al equipo de agentes</h2>
-    <p class="intro">Cada sesión del módulo añadió una capacidad al agente. Hoy cambiamos de escala: en lugar de mejorar un agente, coordinamos varios.</p>
-    <div class="timeline">
-      <div class="step"><span class="d">15/10</span><b>RAG avanzado</b><small>Híbrida, reranking, CRAG</small></div>
-      <div class="step"><span class="d">20/10</span><b>Evaluación RAG</b><small>Faithfulness, relevancy</small></div>
-      <div class="step"><span class="d">21/10</span><b>Agentes de IA</b><small>Bucle razonar-actuar-observar</small></div>
-      <div class="step"><span class="d">22/10</span><b>Tool use</b><small>Herramientas e integraciones</small></div>
-      <div class="step"><span class="d">26/10</span><b>Planificación y memoria</b><small>Organizar y recordar</small></div>
-      <div class="step now"><span class="d">27/10 · Hoy</span><b>Multi-agente + CrewAI</b><small>Especialización y coordinación</small></div>
+    <p class="intro">Un agente puede razonar, usar herramientas y recordar. En esta sesión damos el paso siguiente: repartir el trabajo entre varios agentes especializados que se coordinan.</p>
+    <div class="grid g4 mt">
+      <div class="card"><span class="chip">Entender</span><p>Qué es un sistema multi-agente y cuándo compensa frente a un solo agente o un programa normal.</p></div>
+      <div class="card"><span class="chip">Diseñar</span><p>Qué patrones de coordinación existen y cómo elegir entre ellos.</p></div>
+      <div class="card"><span class="chip">Construir</span><p>Cómo se monta un equipo de agentes con CrewAI: agentes, tareas, equipo y proceso.</p></div>
+      <div class="card"><span class="chip">Evaluar</span><p>Cómo medir el resultado, el costo y los riesgos de un sistema multi-agente.</p></div>
     </div>
     <div class="grid g3 mt">
-      <div class="card"><span class="chip sky">Planificación → coordinación</span><p>Antes, un agente planificaba sus pasos. Ahora diseñamos qué agente hace cada paso, en qué orden y con qué dependencias.</p></div>
-      <div class="card"><span class="chip sky">Tool use → permisos por rol</span><p>Cada agente recibe solo las herramientas de su rol. Menos herramientas por agente significa mejores elecciones y menos riesgo.</p></div>
+      <div class="card"><span class="chip sky">Planificación → coordinación</span><p>Ya no se trata solo de los pasos de un agente: diseñamos qué agente hace cada paso, en qué orden y con qué dependencias.</p></div>
+      <div class="card"><span class="chip sky">Herramientas → permisos por rol</span><p>Cada agente recibe solo las herramientas de su rol. Menos herramientas por agente significa mejores elecciones y menos riesgo.</p></div>
       <div class="card"><span class="chip sky">Memoria → contexto compartido</span><p>La salida de una tarea entra como contexto en la siguiente. Así circula la información dentro del equipo.</p></div>
     </div>
   </div>
@@ -340,7 +338,7 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:14px}
     <div class="grid g3 mt">
       <div class="card"><span class="chip">Tools</span><p>Por agente o por tarea. Se crean con el decorador <code>@tool</code> o heredando de <code>BaseTool</code>. Es lo visto en tool use, repartido por rol.</p></div>
       <div class="card"><span class="chip">Guardrails</span><p>Una función valida la salida de una tarea. Si falla, el agente rehace la tarea con el motivo como feedback (<code>guardrail_max_retries</code>).</p></div>
-      <div class="card"><span class="chip">Memory</span><p>Con <code>memory=True</code> en la Crew, los agentes conservan información entre tareas y ejecuciones. Conecta con la sesión de memoria de agentes.</p></div>
+      <div class="card"><span class="chip">Memory</span><p>Con <code>memory=True</code> en la Crew, los agentes conservan información entre tareas y ejecuciones.</p></div>
     </div>
     <div class="grid g2 mt">
       <div class="card"><h3>Sequential</h3><p class="muted" style="margin-bottom:12px">Las tareas se ejecutan en el orden de la lista; cada una recibe el contexto que indique <code>context</code>.</p>
@@ -439,16 +437,17 @@ t_analizar = Task(
     <p class="intro">Vamos a ejecutar el equipo del caso práctico sobre una base documental local (los apuntes del módulo), así el resultado no depende de búsquedas web impredecibles.</p>
     <div class="grid g2 mt">
       <div class="card"><h3>Requisitos</h3>
-        <p>Python 3.10 a 3.13, una clave de API de OpenAI y el repositorio de la clase descargado (carpeta <code>taller/</code>). Con <code>gpt-4o-mini</code>, cada ejecución cuesta muy poco (céntimos).</p></div>
+        <p>Python 3.10 a 3.13 y el repositorio de la clase descargado (carpeta <code>taller/</code>). <b>Es gratis:</b> por defecto funciona en <b>modo demo</b>, sin clave ni cuenta. Opcional: una clave gratuita de Google Gemini para obtener respuestas reales.</p></div>
       <div class="card"><h3>Estructura</h3>
 <pre class="tree">taller/
 ├── apuntes/            ← base documental (4 archivos .md)
 ├── equipo.py           ← agentes, herramienta y tareas
+├── demo_llm.py         ← modelo simulado (modo demo)
 ├── paso1_secuencial.py
 ├── paso2_jerarquico.py
 ├── paso3_guardrail.py
 ├── requirements.txt
-└── .env.example        ← plantilla para tu clave</pre></div>
+└── .env.example        ← opciones de modelo: demo, Gemini u OpenAI</pre></div>
     </div>
 
     <div class="lab-steps">
@@ -462,12 +461,9 @@ python -m venv .venv
 source .venv/bin/activate       <span class="c"># macOS / Linux</span>
 
 <span class="c"># 2. Instalar dependencias</span>
-pip install -r requirements.txt
-
-<span class="c"># 3. Crear tu archivo .env a partir de la plantilla</span>
-copy .env.example .env          <span class="c"># Windows</span>
-cp .env.example .env            <span class="c"># macOS / Linux</span></code></pre></div>
-        <p>Abre <code>.env</code> y sustituye <code>pon-aqui-tu-clave</code> por tu clave. El archivo <code>.gitignore</code> evita que se suba a GitHub.</p>
+pip install -r requirements.txt</code></pre></div>
+        <p><b>No necesitas clave:</b> sin archivo <code>.env</code>, el taller funciona en <b>modo demo</b>. CrewAI se ejecuta de verdad (agentes, tareas, contexto, herramienta y guardrail); solo las respuestas del modelo son de ejemplo.</p>
+        <p class="muted"><b>Opcional, también gratis:</b> crea una clave en <code>aistudio.google.com</code> (sin tarjeta), copia <code>.env.example</code> como <code>.env</code>, activa la opción de Gemini y pega tu clave. El archivo <code>.gitignore</code> evita que se suba a GitHub.</p>
       </div></div>
 
       <div class="lab"><div>
@@ -481,7 +477,7 @@ cp .env.example .env            <span class="c"># macOS / Linux</span></code></p
         <h3>Cambiar a proceso jerárquico</h3>
         <div class="copy-wrap"><button class="copy">Copiar</button><pre><code>python paso2_jerarquico.py</code></pre></div>
         <p>Mismos agentes y tareas, pero sin agente asignado: un manager decide quién hace cada una.</p>
-        <p class="look"><b>Observa:</b> anota los tokens y el tiempo de ambos pasos en esta tabla y compara la calidad de los dos informes.</p>
+        <p class="look"><b>Observa:</b> aparece un nuevo agente, el <b>Crew Manager</b>, que reparte y revisa las tareas. En modo demo cuenta cuántas veces interviene; con Gemini, anota también los tokens y el tiempo de ambos pasos.</p>
         <div class="table-wrap" style="margin-top:0"><table style="min-width:420px">
           <thead><tr><th>Proceso</th><th>Tokens totales</th><th>Tiempo</th><th>Calidad (1–5)</th></tr></thead>
           <tbody><tr><td>Sequential</td><td>…</td><td>…</td><td>…</td></tr><tr><td>Hierarchical</td><td>…</td><td>…</td><td>…</td></tr></tbody>

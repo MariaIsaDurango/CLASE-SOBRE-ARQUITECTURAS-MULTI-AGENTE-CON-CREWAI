@@ -9,7 +9,7 @@ Por **María Isabel Durango Pérez**
 
 [![Python](https://img.shields.io/badge/Python-3.10%20–%203.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![CrewAI](https://img.shields.io/badge/CrewAI-1.15.30-6A3DE8)](https://docs.crewai.com/)
-[![OpenAI](https://img.shields.io/badge/LLM-gpt--4o--mini-0A86BD)](https://platform.openai.com/)
+[![Costo](https://img.shields.io/badge/Taller-gratis-0A86BD)](#️-taller-práctico)
 [![GitHub Pages](https://img.shields.io/badge/Presentación-GitHub%20Pages-222?logo=github)](https://mariaisadurango.github.io/CLASE-SOBRE-ARQUITECTURAS-MULTI-AGENTE-CON-CREWAI/)
 
 ### [▶ Ver la presentación](https://mariaisadurango.github.io/CLASE-SOBRE-ARQUITECTURAS-MULTI-AGENTE-CON-CREWAI/)
@@ -97,7 +97,8 @@ flowchart LR
     ├── paso2_jerarquico.py     # Crew con proceso jerárquico (manager)
     ├── paso3_guardrail.py      # Validación de la salida con un guardrail
     ├── requirements.txt
-    └── .env.example            # Plantilla para la clave de API
+    ├── demo_llm.py             # Modelo simulado para el modo demo (gratis)
+    └── .env.example            # Opciones de modelo: demo, Gemini u OpenAI
 ```
 
 ---
@@ -107,7 +108,8 @@ flowchart LR
 ### Requisitos
 
 - Python **3.10 a 3.13**
-- Una clave de API de **OpenAI** (con `gpt-4o-mini`, cada ejecución cuesta céntimos)
+- **Nada más.** El taller es gratis: por defecto funciona en **modo demo**, sin clave ni cuenta.
+- Opcional: una clave **gratuita** de Google Gemini (sin tarjeta) para obtener respuestas reales.
 
 ### 1 · Preparar el entorno
 
@@ -147,7 +149,7 @@ cp .env.example .env
 ```
 </details>
 
-Abre el archivo `.env` y sustituye `pon-aqui-tu-clave` por tu clave de OpenAI.
+El último comando de cada bloque es **opcional**: sin archivo `.env`, el taller funciona en modo demo. Si quieres respuestas reales gratis, crea una clave en [Google AI Studio](https://aistudio.google.com), abre `.env`, activa la opción de Gemini y pega tu clave.
 
 > [!WARNING]
 > El archivo `.env` contiene tu clave privada. Está excluido en `.gitignore`: **nunca lo subas a GitHub**.
@@ -174,7 +176,7 @@ Modifica `equipo.py` y elige una opción:
 
 | Error | Solución |
 |---|---|
-| `Falta OPENAI_API_KEY` | No existe el archivo `.env` o no tiene la clave |
+| `Falta GEMINI_API_KEY` | Elegiste Gemini en `.env` pero no pegaste la clave. Pégala o vuelve a `MODELO=demo` |
 | `ModuleNotFoundError: crewai` | El entorno virtual no está activado |
 | Error al instalar CrewAI | Comprueba que tu versión de Python está entre 3.10 y 3.13 (`python --version`) |
 

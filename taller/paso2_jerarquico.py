@@ -8,7 +8,7 @@ Compara el tiempo y los tokens con el paso 1.
 """
 import time
 from crewai import Crew, Process
-from equipo import crear_agentes, crear_tareas, TEMA_POR_DEFECTO, MODELO
+from equipo import crear_agentes, crear_tareas, TEMA_POR_DEFECTO, LLM
 
 agentes = crear_agentes()
 tareas = crear_tareas(*agentes, asignar=False)   # sin agente: decide el manager
@@ -17,7 +17,7 @@ crew = Crew(
     agents=list(agentes),
     tasks=tareas,
     process=Process.hierarchical,
-    manager_llm=MODELO,           # obligatorio en jerárquico (o manager_agent=...)
+    manager_llm=LLM,              # obligatorio en jerárquico (o manager_agent=...)
     verbose=True,
 )
 

@@ -12,14 +12,28 @@ from crewai import Agent, Task
 from crewai.tools import tool
 
 # ── 1. Configuración ───────────────────────────────────────────────────
-load_dotenv()  # lee el archivo .env (OPENAI_API_KEY, MODELO)
+load_dotenv()  # lee el archivo .env si existe
 
-if not os.getenv("OPENAI_API_KEY"):
-    raise SystemExit(
-        "Falta OPENAI_API_KEY. Copia .env.example como .env y pon tu clave."
-    )
+# MODELO decide qué "cerebro" usan los agentes:
+#   demo                         -> modelo simulado: gratis, sin clave (por defecto)
+#   gemini/<modelo>              -> Google Gemini, nivel gratuito (necesita GEMINI_API_KEY)
+#   gpt-4o-mini (u otro OpenAI)  -> de pago (necesita OPENAI_API_KEY)
+MODELO = os.getenv("MODELO", "demo").strip()
 
-MODELO = os.getenv("MODELO", "gpt-4o-mini")  # modelo barato para clase
+if MODELO == "demo":
+    from demo_llm import DemoLLM
+    LLM = DemoLLM()
+    print(">> MODO DEMO: modelo simulado, gratis y sin clave. "
+          "CrewAI se ejecuta de verdad; las respuestas son de ejemplo.\n")
+elif MODELO.startswith("gemini/"):
+    if not (os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")):
+        raise SystemExit("Falta GEMINI_API_KEY en el archivo .env (clave gratuita en aistudio.google.com).")
+    LLM = MODELO
+else:
+    if not os.getenv("OPENAI_API_KEY"):
+        raise SystemExit("Falta OPENAI_API_KEY en el archivo .env, o usa MODELO=demo (gratis).")
+    LLM = MODELO
+
 CARPETA_APUNTES = Path(__file__).parent / "apuntes"
 
 
@@ -46,7 +60,7 @@ def crear_agentes():
         backstory="Trabajas solo con fuentes verificables. Si un dato no está "
                   "en los apuntes, lo dices en lugar de inventarlo.",
         tools=[leer_apuntes],          # el ÚNICO agente con herramienta
-        llm=MODELO,
+        llm=LLM,
         allow_delegation=False,
         max_iter=8,                    # límite de iteraciones del bucle del agente
     )
@@ -54,7 +68,7 @@ def crear_agentes():
         role="Analista técnico",
         goal="Organizar los hallazgos y separar hechos, inferencias y lagunas",
         backstory="Detectas contradicciones y huecos de información.",
-        llm=MODELO,
+        llm=LLM,
         allow_delegation=False,
     )
     redactor = Agent(
@@ -62,14 +76,14 @@ def crear_agentes():
         goal="Escribir un informe breve y claro sobre {tema} usando solo el análisis",
         backstory="Escribes para un público técnico. Frases cortas y cada "
                   "afirmación con su fuente entre corchetes.",
-        llm=MODELO,
+        llm=LLM,
         allow_delegation=False,
     )
     revisor = Agent(
         role="Revisor de calidad",
         goal="Detectar afirmaciones sin respaldo en el análisis y corregirlas",
         backstory="Eres exigente: si una frase no tiene respaldo, la quitas o la matizas.",
-        llm=MODELO,
+        llm=LLM,
         allow_delegation=False,
     )
     return investigador, analista, redactor, revisor
