@@ -45,8 +45,6 @@ nav.top .wrap{display:flex;align-items:center;gap:14px;padding-block:10px}
 .links::-webkit-scrollbar{display:none}
 .links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:6px 10px;border-radius:6px;white-space:nowrap}
 .links a:hover{color:var(--ink);background:var(--surface-2)}
-.notes-btn{font:600 13px var(--f-body);background:transparent;color:var(--violet);border:1px solid var(--violet);border-radius:999px;padding:6px 12px;cursor:pointer;white-space:nowrap}
-.notes-btn[aria-pressed="true"]{background:var(--violet);color:var(--surface)}
 
 header.hero{background:var(--surface);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
 header.hero .wrap{position:relative;padding-block:64px 56px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:40px;align-items:center}
@@ -176,11 +174,6 @@ pre code{background:none;padding:0;font-size:inherit}
 .gloss b{font-family:var(--f-mono);font-size:14px;color:var(--violet);font-weight:600}
 .sources li{margin-bottom:6px}
 
-.notes{display:none;margin-top:22px;border:1px dashed var(--violet);border-radius:10px;padding:14px 18px;background:var(--violet-soft);font-size:15px}
-body.show-notes .notes{display:block}
-.notes .h{font:600 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--violet)}
-.notes p{margin:8px 0 0;max-width:none}
-.notes .ask{color:var(--sky);font-weight:600}
 footer{padding-block:36px;text-align:center;color:var(--muted);font-size:14px}
 </style>
 
@@ -192,7 +185,6 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:14px}
     <div class="links">
       <a href="#contexto">Contexto</a><a href="#problema">Problema</a><a href="#patrones">Patrones</a><a href="#crewai">CrewAI</a><a href="#caso">Caso práctico</a><a href="#simulacion">Simulación</a><a href="#taller">Taller</a><a href="#evaluacion">RAG y evaluación</a><a href="#tradeoffs">Trade-offs</a><a href="#repaso">Repaso</a><a href="#fuentes">Fuentes</a>
     </div>
-    <button class="notes-btn" id="notesBtn" aria-pressed="false">Notas de la ponente</button>
   </div>
 </nav>
 
@@ -242,11 +234,6 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:14px}
       <div class="card"><span class="chip sky">Tool use → permisos por rol</span><p>Cada agente recibe solo las herramientas de su rol. Menos herramientas por agente significa mejores elecciones y menos riesgo.</p></div>
       <div class="card"><span class="chip sky">Memoria → contexto compartido</span><p>La salida de una tarea entra como contexto en la siguiente. Así circula la información dentro del equipo.</p></div>
     </div>
-    <aside class="notes"><div class="h">Notas · min 0–8</div>
-      <p>Abre con una pregunta: <span class="ask">"Si tuvierais que entregar un informe técnico riguroso, ¿lo haría una sola persona que investiga, analiza, redacta y se revisa a sí misma?"</span> Escucha dos o tres respuestas. Lo natural es repartirlo en un equipo.</p>
-      <p>Repaso rápido de la línea temporal: con Majo, recuperar información; con Adriana, medir su calidad; con Javier, qué es un agente; con Elena, herramientas; con Helen, planificación y memoria. "Hoy el salto es organizativo: varios agentes especializados que colaboran."</p>
-      <p>Anuncia la estructura: primero la arquitectura y CrewAI, después un taller práctico con código.</p>
-    </aside>
   </div>
 </section>
 
@@ -275,10 +262,6 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:14px}
       </table>
     </div>
     <p class="muted mt">Multi-agente no es mejor por defecto: es más caro y más difícil de depurar. Compensa cuando la tarea se divide de forma natural en especialidades.</p>
-    <aside class="notes"><div class="h">Notas · min 8–16</div>
-      <p>Analogía: un trabajo de grupo hecho por una sola persona frente a un grupo bien repartido.</p>
-      <p>En la tabla, insiste en la columna derecha: si el problema es predecible, un script gana. <span class="ask">"¿Usaríais cuatro agentes para traducir un email?"</span> No: una sola llamada al modelo basta.</p>
-    </aside>
   </div>
 </section>
 
@@ -332,10 +315,6 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:14px}
       <div class="card"><span class="chip">Paralelismo</span><p>Tareas independientes a la vez, cuyos resultados se combinan después. En CrewAI: <code>async_execution=True</code> en la tarea.</p></div>
       <div class="card"><span class="chip">Delegación dinámica</span><p>Un agente decide en ejecución a quién pasar el trabajo. Más autonomía y menos previsibilidad.</p></div>
     </div>
-    <aside class="notes"><div class="h">Notas · min 16–24</div>
-      <p>Ejemplo real: la función Research de Anthropic usa un patrón supervisor; un agente líder planifica y lanza subagentes en paralelo, cada uno con su propio contexto.</p>
-      <p><span class="ask">"¿Qué patrón usaríais para un informe técnico?"</span> Secuencial, porque cada fase depende de la anterior. Paralelo tendría sentido si hubiera que investigar varios subtemas independientes.</p>
-    </aside>
   </div>
 </section>
 
@@ -380,11 +359,6 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:14px}
     </div>
     <div class="card mt"><span class="chip sky">Crews y Flows</span><h3 style="margin-top:8px">Autonomía dentro, control fuera</h3>
       <p>Las <b>Crews</b> son equipos autónomos que colaboran. Los <b>Flows</b> son flujos deterministas, dirigidos por eventos, con estado, condiciones y bucles. La documentación oficial recomienda empezar una aplicación de producción con un Flow y llamar a una Crew dentro de los pasos que necesiten autonomía.</p></div>
-    <aside class="notes"><div class="h">Notas · min 24–38</div>
-      <p>Mensaje clave: CrewAI no razona ni busca por sí mismo. Organiza el trabajo; el modelo razona y las herramientas actúan. No confundir el framework con el modelo.</p>
-      <p><span class="ask">"¿Dónde viaja la información entre agentes?"</span> En la salida de cada tarea, que se inyecta como contexto en la siguiente. Es texto, no magia.</p>
-      <p>Verificado con CrewAI 1.15.30 (octubre de 2026): el enum <code>Process</code> solo tiene <code>sequential</code> y <code>hierarchical</code>.</p>
-    </aside>
   </div>
 </section>
 
@@ -428,10 +402,6 @@ t_analizar = Task(
     agent=analista,
     context=[t_investigar],    <span class="c"># recibe la salida del investigador</span>
 )</code></pre></div>
-    <aside class="notes"><div class="h">Notas · min 38–44</div>
-      <p>Tres detalles del código: <code>{tema}</code> es una variable que se rellena en <code>kickoff(inputs=…)</code>; <code>context</code> une las tareas; y solo el investigador tiene herramienta (principio de mínimo privilegio).</p>
-      <p><span class="ask">"¿Qué pasa si el investigador trae un dato falso?"</span> Se propaga por toda la cadena. Por eso el revisor recibe también el análisis: puede contrastar el informe con su origen.</p>
-    </aside>
   </div>
 </section>
 
@@ -459,9 +429,6 @@ t_analizar = Task(
       <div class="metrics"><span>Llamadas al LLM: <b id="kCalls">0</b></span><span>Tokens (aprox.): <b id="kTok">0</b></span><span>Tiempo (aprox.): <b id="kSec">0 s</b></span></div>
       <p class="note-small">Visualización ilustrativa con cifras de ejemplo, no una ejecución real. Las cifras reales las obtendremos en el taller con <code>resultado.token_usage</code>.</p>
     </div>
-    <aside class="notes"><div class="h">Notas · min 44–48</div>
-      <p>Primero secuencial, narrando el paso de contexto. Luego jerárquico: aparece el manager, que asigna y valida en cada ronda, y suben las llamadas. Conclusión: más flexibilidad, más coste. En el taller lo comprobarán con números reales.</p>
-    </aside>
   </div>
 </section>
 
@@ -544,11 +511,6 @@ tareas[-1].guardrail_max_retries = 2</code></pre>
         <p>a) Cambia el tema en <code>TEMA_POR_DEFECTO</code> por otra pregunta que puedan responder los apuntes. b) Añade un quinto agente, "Traductor", que pase el informe final a inglés. c) Quita la herramienta al investigador y observa qué ocurre con las fuentes.</p>
       </div></div>
     </div>
-    <aside class="notes"><div class="h">Notas · min 50–75</div>
-      <p>Si no todos tienen clave de API, ejecútalo tú en pantalla y que ellos sigan el código y rellenen la tabla. Ejecuta el paso 1 en casa antes de clase y guarda la salida como plan B por si falla internet o la API.</p>
-      <p>En el reto c), el investigador sin herramienta tiende a inventar fuentes: es la mejor demostración de por qué importan las herramientas y el revisor.</p>
-      <p>Errores comunes: <code>Falta OPENAI_API_KEY</code> (no se creó el <code>.env</code>), versión de Python fuera de rango, o el entorno virtual sin activar.</p>
-    </aside>
   </div>
 </section>
 
@@ -575,9 +537,6 @@ tareas[-1].guardrail_max_retries = 2</code></pre>
         </tbody>
       </table>
     </div>
-    <aside class="notes"><div class="h">Notas · min 75–79</div>
-      <p><span class="ask">"¿Qué métricas de la sesión de Adriana podemos reutilizar?"</span> Faithfulness y relevancy. Las nuevas miden coste, tiempo y coordinación.</p>
-    </aside>
   </div>
 </section>
 
@@ -599,9 +558,6 @@ tareas[-1].guardrail_max_retries = 2</code></pre>
       <div class="card risk"><h3>Falsa fiabilidad</h3><p>Cuatro agentes de acuerdo no prueban nada si usan el mismo modelo y la misma fuente.</p><p class="fix"><b>Mitigación:</b> evaluación sistemática y revisión humana final.</p></div>
     </div>
     <p class="mt"><b>Cuándo no usar multi-agente:</b> tareas simples, procesos predecibles que resuelve un script, o problemas donde todos los agentes necesitan el mismo contexto completo. Anthropic cita muchas tareas de programación como mal candidato por ese motivo.</p>
-    <aside class="notes"><div class="h">Notas · min 79–83</div>
-      <p>Las tres cifras son de Anthropic (2025), sobre su sistema de investigación. Mensaje: funciona mejor, pero cuesta mucho más; solo compensa si el valor de la tarea lo justifica.</p>
-    </aside>
   </div>
 </section>
 
@@ -612,10 +568,6 @@ tareas[-1].guardrail_max_retries = 2</code></pre>
     <div class="grid g2 mt" id="quiz"></div>
     <div class="card mt"><span class="chip sky">Ejercicio de diseño</span><h3 style="margin-top:8px">¿Equipo o no?</h3>
       <p>Una tienda online quiere responder automáticamente reseñas negativas. En grupos de 3, en 5 minutos: ¿hace falta un sistema multi-agente? Si es así, define agentes, tareas, herramientas y proceso. Si no, justifica la alternativa.</p></div>
-    <aside class="notes"><div class="h">Notas · min 83–90</div>
-      <p>Solución orientativa: un Flow clasifica la reseña (código o una llamada al modelo) y solo las complejas pasan a una Crew secuencial de dos agentes (consulta del pedido con herramienta, y redactor). Las simples no necesitan equipo.</p>
-      <p>Cierre: "Un agente resuelve tareas; una arquitectura multi-agente organiza especialistas con reglas claras. La mejor arquitectura es la más simple que resuelve el problema."</p>
-    </aside>
   </div>
 </section>
 
@@ -667,11 +619,6 @@ tareas[-1].guardrail_max_retries = 2</code></pre>
   colores();tam();paso();
   window.addEventListener('resize',function(){tam();if(quieto)dibujar()});
   if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){colores();if(quieto)dibujar()});
-
-  var nb=document.getElementById('notesBtn');
-  function setNotes(on){document.body.classList.toggle('show-notes',on);nb.setAttribute('aria-pressed',on?'true':'false');try{localStorage.setItem('notas',on?'1':'0')}catch(e){}}
-  try{if(localStorage.getItem('notas')==='1')setNotes(true)}catch(e){}
-  nb.addEventListener('click',function(){setNotes(!document.body.classList.contains('show-notes'))});
 
   document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
     var code=b.parentNode.querySelector('pre').innerText;
